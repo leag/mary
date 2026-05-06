@@ -8,7 +8,8 @@ A Claude Code skill that evaluates sales leads for urgency signals, syncs deal p
   - **Open / new** → scores the lead by timeframe signals (base 40%, +45% high urgency, +25% short term).
   - **Won / Lost** → skips scoring and removes the deal from the local list.
 - Only deals scoring **≥ 60%** are written to Pipedrive and tracked locally.
-- Maintains `HOT_DEALS.md` in the working directory, sorted highest-to-lowest probability.
+- Maintains a centralized `~/HOT_DEALS.md` (one list across all sessions), sorted highest-to-lowest probability with Deal ID as tiebreaker.
+- Stall signals (e.g. "on hold", "next year") subtract from the score, so previously hot deals can cool off and drop off the list.
 
 See [`SKILL.md`](./SKILL.md) for the full instructions Claude follows.
 
@@ -41,7 +42,7 @@ Claude will look up Acme in Pipedrive, score the urgency, update or create the d
 
 ## Output format
 
-`HOT_DEALS.md` is overwritten on each run with this structure:
+`~/HOT_DEALS.md` is overwritten on each run with this structure:
 
 ```markdown
 # High Priority Pipeline
